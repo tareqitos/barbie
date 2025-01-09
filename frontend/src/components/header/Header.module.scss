@@ -1,0 +1,43 @@
+@import '../../styles/main.scss';
+
+header {
+    @include flex-center;
+    justify-content: space-between;
+}
+
+.logo_container {
+    @include flex-center;
+    gap: 10px;
+
+    .logo_img {
+        height: 50px;
+    }
+    
+    .logo_title {
+        @include font-properties('Syne', 1.5em, 500, normal, .5px);
+        @include link-properties($primary-color);
+    }
+}
+
+.form_login_container {
+    @include flex-center;
+    gap: 20px;
+    form {
+        .input_search {
+            @include font-properties('Inter', .7em, 400, normal, normal);
+            @include search-input;
+            color: $text-primary-color-dark;
+            width: 20vw;
+            transition: width .25s;
+
+            &:focus {
+                width: 25vw;
+                outline: none;
+            }
+        }
+    }
+
+    .btn.btn_login {
+        @include button(80px, 40px);
+    }
+}
