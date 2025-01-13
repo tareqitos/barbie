@@ -1,0 +1,14 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: $inter-regular;
+    padding: $main-padding;
+    overflow-x: hidden;
+    background: $background-color-gradient;
+    background-attachment: fixed;
+}

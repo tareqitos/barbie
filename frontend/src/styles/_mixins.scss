@@ -1,0 +1,57 @@
+@mixin font-properties($font-family: 'Inter', $font-size: 1em, $font-weight: '400', $line-height: normal, $letter-spacing: normal) {
+    font-family: $font-family;
+    font-size: $font-size;
+    font-weight: $font-weight;
+    line-height: $line-height;
+    letter-spacing: $letter-spacing;
+}
+
+@mixin link-properties($color: $primary-color) {
+    color: $color;
+    text-decoration: none;
+}
+
+// Search input
+@mixin search-input {
+    padding: $search-input-padding;
+    border: $search-input-border;
+    border-radius: $search-input-border-radius;
+}
+
+// Button
+
+@mixin button ( $width: 120px, $height: 50px) {
+    @include font-properties('Inter', .8em, 700, normal, normal);
+    width: $width;
+    height: $height;
+    border-radius: $button-border-radius;
+    padding: $button-padding;
+    color: $primary-color;
+    background-color: $button-background-color;
+    border: none;
+    cursor: pointer;
+    
+}
+// Flex
+@mixin flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

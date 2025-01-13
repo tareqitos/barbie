@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+header {
+    @include flex-center;
+    justify-content: space-between;
+}
+
+.logo-container {
+    @include flex-center;
+    gap: 10px;
+
+    .logo-img {
+        height: 50px;
+    }
+    
+    .logo-title {
+        @include font-properties('Syne', 1.5em, 500, normal, .5px);
+        @include link-properties($primary-color);
+    }
+}
+
+.form-login-container {
+    @include flex-center;
+    gap: 20px;
+    .btn.btn-login {
+        @include button(80px, 40px);
+    }
+}
