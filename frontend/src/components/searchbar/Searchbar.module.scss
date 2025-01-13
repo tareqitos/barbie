@@ -1,0 +1,17 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+form {
+    .input-search {
+        @include font-properties('Inter', .7em, 400, normal, normal);
+        @include search-input;
+        color: $text-primary-color-dark;
+        width: 20vw;
+        transition: width .25s;
+
+        &:focus {
+            width: 25vw;
+            outline: none;
+        }
+    }
+}
