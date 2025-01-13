@@ -4,6 +4,7 @@
     font-weight: $font-weight;
     line-height: $line-height;
     letter-spacing: $letter-spacing;
+    text-decoration: none;
 }
 
 @mixin link-properties($color: $primary-color) {

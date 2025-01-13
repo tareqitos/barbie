@@ -13,8 +13,10 @@ function Header() {
 
                 <div className={styles['form-login-container']}>
                     <Searchbar />
-                    <Link to="/login" className={`${styles.btn} ${styles['btn-login']}`}>
-                        Log In
+                    <Link to="/login">
+                        <button className={`${styles.btn} ${styles['btn-login']}`}>
+                            Log In
+                        </button>
                     </Link>
                 </div>
             </header>

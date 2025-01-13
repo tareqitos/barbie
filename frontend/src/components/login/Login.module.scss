@@ -1,3 +1,87 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
 
+.login-form-container,
+.reset-form-container {
+    border: 2px solid $button-background-color;
+    padding: 20px 40px;
+    border-radius: $border-radius-10;
+    box-shadow: 0 0 10px 1px $button-background-color;
+    width: 350px;
+    margin: auto;
+    margin-top: 10vh;
+
+    h1 {
+        @include font-properties('Syne', 2em, 700, normal, normal);
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    form {
+        @include flex-column-center;
+    }
+
+    .input-user-container,
+    .input-pass-container {
+        @include flex-column;
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    label {
+        font-size: .8em;
+    }
+
+    input {
+        color: $text-primary-color-light;
+        background: none;
+        border: none;
+        border-bottom: 2px solid $button-background-color;
+        padding: 10px 0;
+
+        &:focus {
+            outline: none;
+            border-bottom: 2px solid $primary-color;
+        }
+    }
+
+    .pass-reset-link,
+    .sign-up-link {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    
+    .pass-reset-link,
+    .sign-up-message,
+    .log-in-link {
+        @include link-properties($primary-color);
+        font-size: .8em;
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .pass-reset-link {
+        text-align: right;
+    }
+
+    .sign-up-link {
+        @include link-properties($primary-color);
+    }
+
+    [type="submit"] {
+        @include button(100px, 40px);
+        margin: 40px auto;
+    }
+}
+
+.reset-form-container {
+    width: fit-content;
+}
+
+.heroicons {
+    color: $text-primary-color-light;
+    width: 25px;
+    vertical-align: middle;
+    line-height: normal;
+}
