@@ -1,0 +1,35 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.hardware-select-container {
+    @include flex-row;
+    gap: 25px;
+    padding: 30px 60px;
+    border-radius: $border-radius-10;
+    border: 2px solid $focus-color;
+    background: linear-gradient(379deg, rgb(35, 35, 35) 25%, rgba(45, 113, 117, 0.46) 78%, rgba(63, 243, 255, 0.33) 100%);
+
+    .select-container {
+        @include flex-column;
+        gap: 5px;
+        min-width: 50px;
+        width: 350px;
+
+        label {
+            @include font-properties('Syne', .8em, 400, normal, normal);
+        }
+    }
+}
+
+.select {
+    padding: 5px 10px;
+    border-radius: $border-radius-05;
+}
+
+.filters-select-container {
+    @include flex-row;
+    gap: 10px;
+    justify-content: end;
+
+    margin-top: 20px;
+}

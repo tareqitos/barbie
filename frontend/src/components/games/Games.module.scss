@@ -1,0 +1,47 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.game-list {
+    display: grid;
+    gap: 20px;
+    margin-top: 50px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(repeat, 1fr);
+}
+
+.game-container {
+    height: 400px;
+    background-color: $primary-color;
+    border-radius: $border-radius-10;
+    margin-bottom: 40px;
+
+    overflow: hidden;
+    border-radius: 20px;
+    position: relative;
+    background: linear-gradient(0deg, rgb(0 0 0 / 77%), transparent);
+
+    .bg-img {
+        height: 100%;
+        position: absolute;
+        transform: scale(1.5);
+        opacity: .2;
+        filter: blur(10px);
+    }
+}
+
+.game-image-container {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    margin: 20px;
+    border-radius: $border-radius-10;
+
+    .cover-img {
+        @include absolute-center;
+        width: 170%;
+    }
+}
+
+.game-infos-container {
+    padding: 10px 20px;
+}

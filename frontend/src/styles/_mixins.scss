@@ -21,7 +21,7 @@
 
 // Button
 
-@mixin button ( $width: 120px, $height: 50px) {
+@mixin button ($width: 120px, $height: 50px) {
     @include font-properties('Inter', .8em, 700, normal, normal);
     width: $width;
     height: $height;
@@ -31,8 +31,9 @@
     background-color: $button-background-color;
     border: none;
     cursor: pointer;
-    
+
 }
+
 // Flex
 @mixin flex-row {
     display: flex;
@@ -55,4 +56,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+@mixin absolute-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
