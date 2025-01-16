@@ -1,46 +1,26 @@
 const express = require("express");
 const fetch = require("node-fetch");
-require("dotenv").config(); // Load environment variables from .env file
+const cors = require("cors");
+require("dotenv").config({ path: "../.env" });
 
 const app = express();
 app.use(express.json()); // Middleware to parse JSON requests
+app.use(cors()); // Enable CORS for all routes
 
-const CLIENT_ID = process.env.IGDB_CLIENT;
-const CLIENT_SECRET = process.env.IGDB_SECRET;
-let token;
-const body = 'fields name,release_dates.*,cover.*,genres.*; where name = "Halo 5: Guardians";';
+console.log("RAWG_API:", process.env.RAWG_API);
 
-async function getToken() {
-  const token_url = `https://id.twitch.tv/oauth2/token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=client_credentials`;
-  const response = await fetch(token_url, { method: "POST" });
-  const result = await response.json();
-  console.log(result.access_token);
-  return result.access_token;
-}
+const RAWG_API = process.env.RAWG_API;
 
-async function getData() {
-  const token = await getToken();
-  console.log(token);
-  const url = "https://api.igdb.com/v4/games";
+async function getGameData() {
+  app.get("/games", async (req, res) => {
+    const response = await fetch(`https://api.rawg.io/api/games?key=${RAWG_API}`);
+    const result = await response.json();
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Client-ID": CLIENT_ID,
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json"
-    },
-    body: body
+    res.json(result);
   });
-
-  const data = await response.json();
-  console.log(data);
 }
 
-app.get('/games', (req, res) => {
-  const data = getData();
-  res.json(data);
-})
+getGameData();
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
