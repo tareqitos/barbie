@@ -1,6 +1,5 @@
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './Games.module.scss'
-import { getGameApi } from '../../utils/fetch-api'
 
 
 function Games() {
@@ -9,19 +8,14 @@ function Games() {
     const [nextPage, setNextPage] = useState('')
     const [isLoading, setIsLoading] = useState(true)
 
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const games_result = await getGameApi();
-                setNextPage(games_result.next);
-                setGamesList(games_result.results);
+                const response = await fetch('http://localhost:3000/games');
+                const result = await response.json()
+                setGamesList(result.results)
                 setIsLoading(false);
-
-
-
-                console.log(games_result)
+                console.log(result)
             } catch (error) {
                 console.error("Error fetching JSON:", error);
                 setIsLoading(false);
@@ -52,7 +46,7 @@ function Games() {
                                     ))}
                                 </div>
                                 <div className={styles['game-requirements']}>
-                                    <p>{game.minimum ? game.minimum['Processor'] : 'No minimum requirements available'}</p>
+                                   
                                 </div>
                             </div>
                         </div>
