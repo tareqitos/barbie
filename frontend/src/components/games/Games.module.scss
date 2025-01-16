@@ -43,5 +43,16 @@
 }
 
 .game-infos-container {
-    padding: 10px 20px;
+    @include flex-row;
+    padding: 0px 20px 10px 20px;
+
+    .game-title {
+        @include font-properties('Syne', 1.2em, 500, normal, .5px);
+        margin-bottom: 5px;
+    }
+
+    .game-genres {
+        @include font-properties('Inter', .9em, 400, normal, normal);
+        color: $text-color-opacity-05;
+    }
 }
