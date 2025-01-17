@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aos": "^2.3.4",
     "cors": "^2.8.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.1.1",
     "sass": "^1.83.1"
   },
