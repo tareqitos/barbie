@@ -4,6 +4,7 @@ import Header from '../header/Header'
 import Inputs from '../inputs/Inputs'
 import { Filters } from '../inputs/Inputs'
 import Games from '../games/Games'
+import Footer from '../footer/Footer'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
       <Inputs />
       <Filters />
       <Games />
+      <Footer />
     </>
   )
 }

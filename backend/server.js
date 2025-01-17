@@ -13,9 +13,10 @@ const RAWG_API = process.env.RAWG_API;
 
 async function getGameData() {
   app.get("/games", async (req, res) => {
+    const page = req.query.page || 1;
     try {
       const response = await fetch(
-        `https://api.rawg.io/api/games?key=${RAWG_API}&dates=2019-01-01,2025-01-01&platforms=4`
+        `https://api.rawg.io/api/games?key=${RAWG_API}&dates=2019-01-01,2025-01-01&platforms=4&page=${page}`
       );
 
       const result = await response.json();

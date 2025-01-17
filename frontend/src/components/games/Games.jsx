@@ -3,37 +3,57 @@ import { Link } from 'react-router-dom';
 import styles from './Games.module.scss'
 import CardSkeleton from '../cardSkeleton';
 
-
-
-
 function Games() {
     const [gamesList, setGamesList] = useState([])
     const [gamesReq, setGamesReq] = useState({})
-    const [nextPage, setNextPage] = useState('')
+    const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        if (gamesList.length == 0) {
+            window.scrollTo(0, 0);
+        }
+
         const fetchData = async () => {
+            setIsLoading(true)
             try {
-                const response = await fetch('http://localhost:3000/games');
+                const response = await fetch(`http://localhost:3000/games?page=${page}`);
                 const result = await response.json()
-                setGamesList(result.results)
-                setIsLoading(false);
+                setGamesList(prevGamesList => [...prevGamesList, ...result.results])
+
                 console.log(result)
             } catch (error) {
                 console.error("Error fetching JSON:", error);
-                setIsLoading(false);
+            } finally {
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 500);
             }
         }
         fetchData();
-    }, []);
+    }, [page]);
 
-    if (isLoading) {
-        return <CardSkeleton cards={12}/>
-    }
+
+    useEffect(() => {
+
+        function loadNewPage() {
+            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight) {
+                setPage(previous => previous + 1);
+            }
+        }
+
+        window.addEventListener('scroll', loadNewPage);
+
+        return () => {
+            window.removeEventListener('scroll', loadNewPage);
+        };
+
+    }, [])
 
     return (
         <>
+            {isLoading ? <CardSkeleton cards={8} /> : ''}
+            
             <div className={styles['game-list']}>
                 {gamesList.map((game) => (
                     <div key={game.id} className={styles['game-container']}>
@@ -57,14 +77,11 @@ function Games() {
                                     <p>RAM</p>
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
                 ))}
-
             </div>
+            {isLoading ? <div className={styles['loader-5']}></div> : ''}
         </>
     )
 }

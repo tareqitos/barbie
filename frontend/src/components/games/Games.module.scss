@@ -84,14 +84,16 @@
 
     .game-genres {
         @include flex-row;
-        gap: 5px;;
+        gap: 5px;
+        ;
+
         p {
             color: $text-primary-color-light;
             padding: 2px 5px;
             background-color: $genre-background-color;
             border-radius: $border-radius-05;
         }
-        
+
     }
 
     .game-requirements {
@@ -104,3 +106,39 @@
         }
     }
 }
+
+// loader
+
+
+$lite: #FFF;
+$brand: $focus-color;
+$size: 56px;
+
+.loader-5 {
+    width: $size;
+    height: $size;
+    margin: 40px auto;
+    border: 3px solid $lite;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    animation: rotation 1s linear infinite;
+
+    &:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: $size + 8px;
+        height: $size + 8px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: $brand transparent;
+    }
+}
+
+@keyframes rotation {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+  }
