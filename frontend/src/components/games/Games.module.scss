@@ -10,7 +10,6 @@
 }
 
 .game-container {
-    height: 400px;
     background-color: $primary-color;
     border-radius: $border-radius-10;
     margin-bottom: 40px;
@@ -20,39 +19,88 @@
     position: relative;
     background: linear-gradient(0deg, rgb(0 0 0 / 77%), transparent);
 
+    z-index: 1;
+
+    transition: $transition-all-25s;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+
     .bg-img {
-        height: 100%;
+        height: 60%;
         position: absolute;
         transform: scale(1.5);
-        opacity: .2;
-        filter: blur(10px);
+        opacity: .4;
+        filter: blur(20px);
+
+        z-index: -1;
     }
 }
 
 .game-image-container {
     position: relative;
     overflow: hidden;
-    height: 200px;
+    height: 250px;
     margin: 20px;
     border-radius: $border-radius-10;
+}
 
-    .cover-img {
-        @include absolute-center;
-        width: 170%;
-    }
+.cover-img {
+    @include absolute-center;
+    height: 100%;
+
+    transition: height .4s ease;
+}
+
+.game-container:hover .cover-img {
+    height: 108%;
 }
 
 .game-infos-container {
-    @include flex-row;
-    padding: 0px 20px 10px 20px;
+    @include flex-column;
+    margin: 20px;
+    margin-bottom: 40px;
 
     .game-title {
+        @include link-properties;
         @include font-properties('Syne', 1.2em, 500, normal, .5px);
         margin-bottom: 5px;
+        cursor: pointer;
+    }
+}
+
+.game-infos {
+    @include flex-column;
+    justify-content: space-between;
+    gap: 20px;
+
+    .game-genres,
+    .game-requirements {
+        @include font-properties('Inter', .9em, 400, normal, normal);
+        color: $text-primary-color-light;
     }
 
     .game-genres {
-        @include font-properties('Inter', .9em, 400, normal, normal);
-        color: $text-color-opacity-05;
+        @include flex-row;
+        gap: 5px;;
+        p {
+            color: $text-primary-color-light;
+            padding: 2px 5px;
+            background-color: $genre-background-color;
+            border-radius: $border-radius-05;
+        }
+        
+    }
+
+    .game-requirements {
+        @include flex-column;
+        gap: 5px;
+        flex: 1;
+
+        hr {
+            opacity: .2;
+        }
     }
 }
