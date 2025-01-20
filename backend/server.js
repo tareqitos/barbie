@@ -7,13 +7,13 @@ const { logger } = require('./middleware/logEvents')
 const errorHandler = require('./middleware/errorHandler')
 
 require("dotenv").config({ path: "../.env" });
-const RAWG_API = process.env.RAWG_API;
+//const RAWG_API = process.env.RAWG_API;
 const PORT = process.env.PORT || 3000
 const app = express();
 
 app.use(logger)
 
-const whitelist = ['http://localhost', 'http://127.0.0.1']
+const whitelist = ['http://localhost', 'http://127.0.0.1', 'https://api.rawg.io/']
 const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -28,34 +28,16 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Enable CORS for all routes
 
 app.use(express.urlencoded({ extended: false }))
+
 app.use(express.json()); // Middleware to parse JSON requests
-app.use(express.static(path.join(__dirname, '/public')))
 
-//console.log("RAWG_API:", process.env.RAWG_API);
+// static file
+app.use('/', express.static(path.join(__dirname, '/public')))
+app.use('/api', express.static(path.join(__dirname, '/public')))
 
-app.get('/', (req, res) => {
-  res.send('Hello World')
-})
-
-async function getGameData() {
-  app.get("/games", async (req, res) => {
-    const page = req.query.page || 1;
-    try {
-      const response = await fetch(
-        `https://api.rawg.io/api/games?key=${RAWG_API}&dates=2019-01-01,2025-01-01&platforms=4&page=${page}`
-      );
-
-      const result = await response.json();
-
-      res.json(result);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
-}
-
-getGameData();
+// routes setup
+app.use('/', require('./routes/root'))
+app.use('/api', require('./routes/api'))
 
 app.all('*', (req, res) => {
   res.status(404)
