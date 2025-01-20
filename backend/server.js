@@ -1,29 +1,16 @@
 const path = require("path")
 const express = require("express");
-const fetch = require("node-fetch");
 const cors = require("cors");
 
+const corsOptions = require('./config/corsOptions')
 const { logger } = require('./middleware/logEvents')
 const errorHandler = require('./middleware/errorHandler')
 
 require("dotenv").config({ path: "../.env" });
-//const RAWG_API = process.env.RAWG_API;
 const PORT = process.env.PORT || 3000
 const app = express();
 
 app.use(logger)
-
-const whitelist = ['http://localhost', 'http://127.0.0.1', 'https://api.rawg.io/']
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by cors'))
-    }
-  },
-  optionsSuccessStatus: 200
-}
 
 app.use(cors(corsOptions)); // Enable CORS for all routes
 
@@ -32,12 +19,15 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json()); // Middleware to parse JSON requests
 
 // static file
-app.use('/', express.static(path.join(__dirname, '/public')))
-app.use('/api', express.static(path.join(__dirname, '/public')))
+app.use('/', express.static(path.join(__dirname, '/static')))
 
 // routes setup
 app.use('/', require('./routes/root'))
-app.use('/api', require('./routes/api'))
+app.use('/register', require('./routes/register'))
+app.use('/games', require('./routes/games'))
+app.use('/api/users', require('./routes/api/usersRoutes'))
+app.use('/api/games', require('./routes/api/gamesRoutes'))
+app.use('/api/components', require('./routes/api/componentsRoutes'))
 
 app.all('*', (req, res) => {
   res.status(404)
