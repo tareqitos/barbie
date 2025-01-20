@@ -2,6 +2,7 @@ const path = require("path")
 const express = require("express");
 const cors = require("cors");
 
+const corsOptions = require('./config/corsOptions')
 const { logger } = require('./middleware/logEvents')
 const errorHandler = require('./middleware/errorHandler')
 
@@ -10,18 +11,6 @@ const PORT = process.env.PORT || 3000
 const app = express();
 
 app.use(logger)
-
-const whitelist = ['http://localhost', 'http://127.0.0.1', 'https://api.rawg.io/']
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by cors'))
-    }
-  },
-  optionsSuccessStatus: 200
-}
 
 app.use(cors(corsOptions)); // Enable CORS for all routes
 
