@@ -23,6 +23,7 @@ app.use('/', express.static(path.join(__dirname, '/static')))
 
 // routes setup
 app.use('/', require('./routes/root'))
+app.use('/register', require('./routes/register'))
 app.use('/games', require('./routes/games'))
 app.use('/api/users', require('./routes/api/usersRoutes'))
 app.use('/api/games', require('./routes/api/gamesRoutes'))

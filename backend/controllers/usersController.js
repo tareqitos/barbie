@@ -3,12 +3,12 @@ const pool = require('../database/db');
 const getAllUsers = (req, res) => {
     pool.query(`
         SELECT
-        tusers.id_use, 
-        tusers.email_use, 
-        tusers.username_use, 
-        troles.name_rol 
+        tusers.id_use as id, 
+        tusers.email_use as email, 
+        tusers.username_use as username, 
+        troles.name_rol as level
         FROM tusers 
-        INNER JOIN troles ON tusers.fkroles_use = troles.id_rol;`, (err, result) => {
+        INNER JOIN troles ON tusers.fkroles_use = troles.id_rol ORDER BY tusers.id_use;`, (err, result) => {
         if (err) {
             console.log(err.message);
             return res.status(500).json({ error: err.message }); 
