@@ -1,13 +1,11 @@
 const path = require("path")
 const express = require("express");
-const fetch = require("node-fetch");
 const cors = require("cors");
 
 const { logger } = require('./middleware/logEvents')
 const errorHandler = require('./middleware/errorHandler')
 
 require("dotenv").config({ path: "../.env" });
-//const RAWG_API = process.env.RAWG_API;
 const PORT = process.env.PORT || 3000
 const app = express();
 
@@ -32,12 +30,14 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json()); // Middleware to parse JSON requests
 
 // static file
-app.use('/', express.static(path.join(__dirname, '/public')))
-app.use('/api', express.static(path.join(__dirname, '/public')))
+app.use('/', express.static(path.join(__dirname, '/static')))
 
 // routes setup
 app.use('/', require('./routes/root'))
-app.use('/api', require('./routes/api'))
+app.use('/games', require('./routes/games'))
+app.use('/api/users', require('./routes/api/usersRoutes'))
+app.use('/api/games', require('./routes/api/gamesRoutes'))
+app.use('/api/components', require('./routes/api/componentsRoutes'))
 
 app.all('*', (req, res) => {
   res.status(404)
