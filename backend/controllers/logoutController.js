@@ -1,6 +1,6 @@
-const pool = require('../database/db'); 
+const pool = require('../config/dbConnection'); 
 
-const handleLogout = (req, res) => {
+const logout = (req, res) => {
     const cookies = req.cookies
     if (!cookies?.jwt) {
         return res.sendStatus(204)
@@ -11,4 +11,4 @@ const handleLogout = (req, res) => {
     res.sendStatus(204)
 }
 
-module.exports = { handleLogout }
+module.exports = { logout }

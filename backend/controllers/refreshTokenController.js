@@ -1,8 +1,8 @@
-const pool = require('../database/db'); 
+const pool = require('../config/dbConnection'); 
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
+// require('dotenv').config()
 
-const handleRefreshToken = (req, res) => {
+const refreshToken = (req, res) => {
     const cookies = req.cookies
     if (!cookies?.jwt) {
         return res.sendStatus(401)
@@ -24,4 +24,4 @@ const handleRefreshToken = (req, res) => {
     }
 }
 
-module.exports = { handleRefreshToken }
+module.exports = { refreshToken }

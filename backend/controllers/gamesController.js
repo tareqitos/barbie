@@ -1,4 +1,4 @@
-const pool = require('../database/db'); 
+const pool = require('../config/dbConnection'); 
 
 const getAllGames = (req, res) => {
     pool.query("SELECT NAME_GAM FROM TGAMES;", (err, result) => {

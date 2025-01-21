@@ -1,9 +1,7 @@
-const pool = require('../database/db'); 
+const pool = require('../config/dbConnection'); 
 const bcrypt = require('bcrypt')
-//const argon2 = require('argon2');
-//const { hash } = require('crypto');
 
-const handleNewUser = async (req, res) => {
+const register = async (req, res) => {
     const { email, username, password } = req.body
     if (!email) {
         return res.status(400).json({
@@ -23,7 +21,7 @@ const handleNewUser = async (req, res) => {
 
     try {
         // check for duplicate username in the DB
-        const query = `SELECT tusers.id_use FROM tusers WHERE email_use = $1 OR username_use = $2`; 
+        const query = `SELECT t_users.id_use FROM t_users WHERE email_use = $1 OR username_use = $2`; 
         console.log(`Checking for duplicates with email: ${email} and username: ${username}`);
         const result = await pool.query(query, [email, username])
         // , 
@@ -40,18 +38,31 @@ const handleNewUser = async (req, res) => {
             return res.status(409).json({ 'message': 'Email or username already exists' }); 
             // 409 = conflict
         }
-        const hashedPassword = await bcrypt.hash(password, 10) // check maybe use argon2
-        console.log(hashedPassword)
-        const newQuery = `
-            INSERT INTO tusers (email_use, username_use, passwd_use)
-            VALUES ($1, $2, $3)`
-        const newUser = await pool.query(newQuery, [email, username, hashedPassword], (err, result) => {
-            if (err) {
-                console.log(err.message)
-                return res.status(500).json({ error: err.message })
-            }
-        })
-        console.log(newUser)
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const newUserQuery = `
+            INSERT INTO t_users 
+            (email_use, username_use, passwd_use)
+            VALUES 
+            ($1, $2, $3) RETURNING id_use;`
+        const newUserResult = await pool.query(newUserQuery, [email, username, hashedPassword])
+        //     , (err, result) => {
+        //     if (err) {
+        //         console.log(err.message)
+        //         return res.status(500).json({ error: err.message })
+        //     }
+        // })
+        const userId = newUserResult.rows[0].id_use;
+        const newRoleQuery = `
+        INSERT INTO t_roles (fkusers_rol, fkrolescodes_rol)
+        VALUES
+        ($1, $2);`
+        const newRoleResult = await pool.query(newRoleQuery, [userId, 2])
+        //     , (err, result) => {
+        //     if (err) {
+        //         console.log(err.message)
+        //         return res.status(500).json({ error: err.message })
+        //     }
+        // })
         res.status(201).json({ 'success': `New user ${username} created!`})
     } catch (err) {
         res.status(500).json({ 
@@ -60,4 +71,4 @@ const handleNewUser = async (req, res) => {
     }
 }
 
-module.exports = { handleNewUser }
+module.exports = { register }
