@@ -1,5 +1,7 @@
 const pool = require('../database/db'); 
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const handleLogin = async (req, res) => {
     const { username, password } = req.body
@@ -20,13 +22,31 @@ const handleLogin = async (req, res) => {
             return res.sendStatus(401)
         }
         const foundUser = result.rows[0]
-        console.log(foundUser)
+        // console.log(foundUser)
         const match = await bcrypt.compare(password, foundUser.passwd_use)
-        console.log(match)
         if (match) {
-            // should create JWT
+            const accessToken = jwt.sign(
+                { 
+                    "username": foundUser.username_use
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                { 
+                    expiresIn: '30s'
+                }
+            )
+            const refreshToken = jwt.sign(
+                { 
+                    "username": foundUser.username_use
+                },
+                process.env.REFRESH_TOKEN_SECRET,
+                { 
+                    expiresIn: '1d'
+                }
+            )
+            // const otherUsers = 
+            res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
             res.json({
-                'success': `User ${username} is logged in!`
+                accessToken
             })
         } else {
             res.sendStatus(401)
