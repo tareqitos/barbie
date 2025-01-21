@@ -24,7 +24,12 @@ app.use('/', express.static(path.join(__dirname, '/static')))
 // routes setup
 app.use('/', require('./routes/root'))
 app.use('/register', require('./routes/register'))
+app.use('/auth', require('./routes/auth'))
+
+// external api routes
 app.use('/games', require('./routes/games'))
+
+// api routes setup
 app.use('/api/users', require('./routes/api/usersRoutes'))
 app.use('/api/games', require('./routes/api/gamesRoutes'))
 app.use('/api/components', require('./routes/api/componentsRoutes'))
