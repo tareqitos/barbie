@@ -1,4 +1,4 @@
-const pool = require('../database/db'); 
+const pool = require('../config/dbConnection'); 
 
 const getAllComponents = (req, res) => {
     pool.query(`

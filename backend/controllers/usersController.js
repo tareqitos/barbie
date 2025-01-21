@@ -1,4 +1,4 @@
-const pool = require('../database/db'); 
+const pool = require('../config/dbConnection'); 
 
 const getAllUsers = (req, res) => {
     pool.query(`

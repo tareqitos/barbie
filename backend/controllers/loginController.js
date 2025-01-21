@@ -1,9 +1,9 @@
-const pool = require('../database/db'); 
+const pool = require('../config/dbConnection'); 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
+//require('dotenv').config()
 
-const handleLogin = async (req, res) => {
+const login = async (req, res) => {
     const { username, password } = req.body
     if (!username) {
         return res.status(400).json({
@@ -58,4 +58,4 @@ const handleLogin = async (req, res) => {
     }
 }
 
-module.exports = { handleLogin }
+module.exports = { login }
