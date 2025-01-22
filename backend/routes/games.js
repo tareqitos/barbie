@@ -22,4 +22,21 @@ router.get("/", async (req, res) => {
     }
   });
 
+router.get("/:slug", async (req, res) => {
+    const slug = req.params.slug
+
+    console.log("SLUG: ", slug)
+
+    try {
+      const response = await fetch(
+        `https://api.rawg.io/api/games/${slug}?key=${RAWG_API}`
+      );
+      const result = await response.json();
+      res.json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error, could not retrieve the game.');
+    }
+})
+
 module.exports = router

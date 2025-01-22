@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import styles from './Games.module.scss'
+import styles from './GameList.module.scss'
 import CardSkeleton from '../cardSkeleton';
 
 function Games() {
@@ -62,7 +62,7 @@ function Games() {
                             <img className={styles['cover-img']} src={game.background_image} alt="" />
                         </div>
                         <div className={styles['game-infos-container']}>
-                            <Link to={`/games/${game.name}`} className={styles['game-title']}>{game.name}</Link>
+                            <Link to={`/games/${game.slug}`} className={styles['game-title']}>{game.name}</Link>
                             <div className={styles['game-infos']}>
                                 <div className={styles['game-genres']}>
                                     {game.genres.slice(0, 3).map((genre) => (
