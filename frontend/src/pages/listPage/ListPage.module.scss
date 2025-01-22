@@ -1,0 +1,28 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    background: $background-color-gradient;
+    background-attachment: fixed;
+    padding: $main-padding;
+}
+
+.title {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+
+    h1,
+    p {
+        @include font-properties('Syne', 2em, 600, normal, normal)
+    }
+
+    p {
+        font-size: 1em;
+    }
+}

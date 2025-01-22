@@ -8,3 +8,14 @@
     font-family: $inter-font;
     color: $text-primary-color-light;
 }
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    background: $background-color-gradient;
+    background-attachment: fixed;
+    padding: $main-padding;
+}

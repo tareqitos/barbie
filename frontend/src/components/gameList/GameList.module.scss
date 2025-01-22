@@ -1,0 +1,144 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.game-list {
+    display: grid;
+    gap: 20px;
+    margin-top: 50px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(repeat, 1fr);
+}
+
+.game-container {
+    background-color: $primary-color;
+    border-radius: $border-radius-10;
+    margin-bottom: 40px;
+
+    overflow: hidden;
+    border-radius: 20px;
+    position: relative;
+    background: linear-gradient(0deg, rgb(0 0 0 / 77%), transparent);
+
+    z-index: 1;
+
+    transition: $transition-all-25s;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+
+    .bg-img {
+        height: 60%;
+        position: absolute;
+        transform: scale(1.5);
+        opacity: .4;
+        filter: blur(20px);
+
+        z-index: -1;
+    }
+}
+
+.game-image-container {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+    margin: 20px;
+    border-radius: $border-radius-10;
+}
+
+.cover-img {
+    @include absolute-center;
+    height: 100%;
+
+    transition: height .4s ease;
+}
+
+.game-container:hover .cover-img {
+    height: 108%;
+}
+
+.game-infos-container {
+    @include flex-column;
+    margin: 20px;
+    margin-bottom: 40px;
+
+    .game-title {
+        @include link-properties;
+        @include font-properties('Syne', 1.2em, 500, normal, .5px);
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+}
+
+.game-infos {
+    @include flex-column;
+    justify-content: space-between;
+    gap: 20px;
+
+    .game-genres,
+    .game-requirements {
+        @include font-properties('Inter', .9em, 400, normal, normal);
+        color: $text-primary-color-light;
+    }
+
+    .game-genres {
+        @include flex-row;
+        gap: 5px;
+        ;
+
+        p {
+            color: $text-primary-color-light;
+            padding: 2px 5px;
+            background-color: $genre-background-color;
+            border-radius: $border-radius-05;
+        }
+
+    }
+
+    .game-requirements {
+        @include flex-column;
+        gap: 5px;
+        flex: 1;
+
+        hr {
+            opacity: .2;
+        }
+    }
+}
+
+// loader
+
+
+$lite: #FFF;
+$brand: $focus-color;
+$size: 56px;
+
+.loader-5 {
+    width: $size;
+    height: $size;
+    margin: 40px auto;
+    border: 3px solid $lite;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    animation: rotation 1s linear infinite;
+
+    &:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: $size + 8px;
+        height: $size + 8px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: $brand transparent;
+    }
+}
+
+@keyframes rotation {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+  }

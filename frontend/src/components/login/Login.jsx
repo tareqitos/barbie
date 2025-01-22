@@ -19,7 +19,6 @@ function Member() {
 function Login({ setActiveIndex }) {
     return (
         <>
-            <Header />
             <div className={styles["login-form-container"]}>
                 <h1>Login</h1>
                 <form action="">
@@ -43,7 +42,6 @@ function Login({ setActiveIndex }) {
 function SignUp({ setActiveIndex }) {
     return (
         <>
-            <Header />
             <div className={styles["login-form-container"]}>
                 <h1>Sign up</h1>
                 <form action="">
@@ -70,7 +68,6 @@ function SignUp({ setActiveIndex }) {
 function ResetPassword({ setActiveIndex }) {
     return (
         <>
-            <Header />
             <div className={styles["reset-form-container"]}>
                 <h1><Link to={'/login'}><ArrowLeftCircleIcon onClick={() => setActiveIndex(0)} className={styles['heroicons']} /></Link> Password reset</h1>
                 <form action="">
