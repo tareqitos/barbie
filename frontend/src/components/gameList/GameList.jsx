@@ -31,13 +31,15 @@ function Games() {
             }
         }
         fetchData();
+
+        console.log(page)
     }, [page]);
 
 
     useEffect(() => {
 
         function loadNewPage() {
-            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight) {
+            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {
                 setPage(previous => previous + 1);
             }
         }
