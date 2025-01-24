@@ -23,17 +23,7 @@ const Users = sequelize.define('t_users', {
   },
   token_use: {
     type: DataTypes.STRING,
-    defaultValue: '0',
   },
-  // fkpictures_use: {
-  //   type: DataTypes.INTEGER,
-  //   allowNull: false,
-  //   defaultValue: 1,
-  //   references: {
-  //     model: 't_pictures',
-  //     key: 'id_pic',
-  //   }
-  // }
 }, {
   tableName: 't_users',
   timestamps: false
