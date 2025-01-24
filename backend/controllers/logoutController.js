@@ -16,7 +16,7 @@ const logout = async (req, res) => {
             res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
         }
 
-        foundUser.refreshToken = ''
+        foundUser.token_use = ''
         const result = await foundUser.save()
         console.log(result)
 

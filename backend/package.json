@@ -6,8 +6,7 @@
     "start": "nodemon server.js",
     "seed": "node db/seeds/run-seed.js",
     "create-db": "node db/executeSql.js",
-    "sync-db": "node db/sync.js",
-    "test": "jest"
+    "sync-db": "node db/sync.js"
   },
   "keywords": [],
   "author": "",

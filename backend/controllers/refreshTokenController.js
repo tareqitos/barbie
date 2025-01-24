@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const { Op } = Sequelize;
 const Users = require('../models/t_usersModel')
 const Roles = require('../models/t_rolesModel')
-const RolesCodes = require('../models/t_rolesCodesModel')
+const RolesCodes = require('../models/t_rolescodesModel')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -17,8 +17,11 @@ const refreshToken = async (req, res) => {
         where: { "token_use": refreshToken },
         include: [{
             model: Roles,
+            as: 'roles',
             include: [{
-                model: RolesCodes
+                model: RolesCodes,
+                as: 'roleCode',
+                attributes: ['name_rol']
             }]
         }]
     })
@@ -29,10 +32,10 @@ const refreshToken = async (req, res) => {
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         (err, decoded) => {
-            if (err || foundUser.username !== decoded.username ) {
+            if (err || foundUser.username_use !== decoded.username ) {
                 return res.sendStatus(403)
             }
-            const roles = foundUser.t_roles.map(role => role.t_rolescode.name_rol) 
+            const roles = foundUser.roles.map(role => role.roleCode.name_rol) 
             const accessToken = jwt.sign(
                 {
                     "UserInfo": {
