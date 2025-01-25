@@ -3,10 +3,17 @@
 
 .main-container {
     @include flex-row;
-
     overflow: hidden;
     gap: 100px;
     margin: 70px 0;
+
+    @media screen and (max-width: 1200px) {
+        gap: 50px;
+    }
+
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+    }
 }
 
 .bg-img {
@@ -35,7 +42,10 @@
     @include font-properties('Syne', 3em, 600, normal, normal);
     color: $primary-color;
     margin-bottom: 30px;
-    ;
+
+    @media screen and (max-width: 1200px) {
+        font-size: 2em;
+    }
 }
 
 .game-card-container {
@@ -48,6 +58,9 @@
     background: linear-gradient(0deg, rgb(0 0 0 / 77%), transparent);
     background-color: $header-background-color;
 
+    @media screen and (max-width: 1200px) {
+        width: 100%;
+    }
 
     .game-picture-container {
         margin: 30px;
