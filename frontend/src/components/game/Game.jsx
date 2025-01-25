@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { GameSkeleton } from '../cardSkeleton/CardSkel';
 import styles from './Game.module.scss'
 import parse from 'html-react-parser';
 
@@ -7,9 +8,15 @@ function Game() {
     const [game, setGame] = useState([])
     const [req, setReq] = useState({ minimum: '', recommended: '' });
     const [showDesc, setShowDesc] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+
+        window.scrollTo(0, 0);
+
+
         const fetchData = async () => {
+            setIsLoading(true)
             try {
                 const game = window.location.pathname;
                 console.log(game)
@@ -27,6 +34,10 @@ function Game() {
                 console.log(result)
             } catch (error) {
                 console.error("Error fetching JSON:", error);
+            } finally {
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 500);
             }
         }
         fetchData();
@@ -39,6 +50,8 @@ function Game() {
 
     return (
         <>
+            {isLoading ? <GameSkeleton /> : 
+
             <div className={styles["main-container"]}>
                 <div className={styles['bg-fade']}></div>
                 <img className={styles['bg-img']} src={game.background_image_additional} alt="" />
@@ -103,6 +116,7 @@ function Game() {
                     </div>
                 </div>
             </div>
+            }
         </>
     )
 }

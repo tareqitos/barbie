@@ -7,6 +7,15 @@
     margin-top: 50px;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(repeat, 1fr);
+
+    @media screen and (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media screen and (max-width: 900px) {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 10px;
+    }
 }
 
 .game-container {
@@ -27,15 +36,27 @@
         transform: scale(1.03);
     }
 
+    @media screen and (max-width: 900px) {
+        @include flex-row;
+        align-items: center;
 
-    .bg-img {
-        height: 60%;
-        position: absolute;
-        transform: scale(1.5);
-        opacity: .4;
-        filter: blur(20px);
+        margin-bottom: 0;
+    }
+}
 
-        z-index: -1;
+
+.bg-img {
+    height: 100%;
+    position: absolute;
+    transform: scale(1.5);
+    opacity: .4;
+    filter: blur(20px);
+
+    z-index: -1;
+
+    @media screen and (max-width: 900px) {
+        filter: blur(50px);
+
     }
 }
 
@@ -45,13 +66,21 @@
     height: 250px;
     margin: 20px;
     border-radius: $border-radius-10;
+
+    @media screen and (max-width: 900px) {
+        width: 30vw;
+
+    }
 }
 
 .cover-img {
     @include absolute-center;
     height: 100%;
-
     transition: height .4s ease;
+
+    @media screen and (max-width: 900px) {
+        position: relative;
+    }
 }
 
 .game-container:hover .cover-img {
@@ -139,6 +168,11 @@ $size: 56px;
 }
 
 @keyframes rotation {
-    0% { transform: rotate(0deg) }
-    100% { transform: rotate(360deg) }
-  }
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}

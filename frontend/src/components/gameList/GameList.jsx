@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import styles from './GameList.module.scss'
 import CardSkeleton from '../cardSkeleton';
 
 function Games() {
     const [gamesList, setGamesList] = useState([])
-    const [gamesReq, setGamesReq] = useState({})
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(true)
+    const bottom_ref = useRef(null);
 
     useEffect(() => {
         if (gamesList.length == 0) {
@@ -38,24 +38,33 @@ function Games() {
 
     useEffect(() => {
 
-        function loadNewPage() {
-            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {
-                setPage(previous => previous + 1);
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !isLoading) {
+                setPage(previous => previous + 1)
+                    ;
             }
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0
+        });
+
+        if (bottom_ref.current) {
+            observer.observe(bottom_ref.current)
         }
 
-        window.addEventListener('scroll', loadNewPage);
-
         return () => {
-            window.removeEventListener('scroll', loadNewPage);
+            if (bottom_ref.current) {
+                observer.unobserve(bottom_ref.current);
+            }
         };
 
-    }, [])
+    }, [isLoading])
 
     return (
         <>
             {isLoading ? <CardSkeleton cards={8} /> : ''}
-            
+
             <div className={styles['game-list']}>
                 {gamesList.map((game) => (
                     <div key={game.id} className={styles['game-container']}>
@@ -84,6 +93,7 @@ function Games() {
                 ))}
             </div>
             {isLoading ? <div className={styles['loader-5']}></div> : ''}
+            <div ref={bottom_ref}></div>
         </>
     )
 }
