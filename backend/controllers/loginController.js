@@ -1,7 +1,10 @@
-const pool = require('../config/dbConnection'); 
+const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt')
+const sequelize = require('../db/connection');
+const Users = require('../models/t_usersModel')
 const jwt = require('jsonwebtoken')
-//require('dotenv').config()
+const Roles = require('../models/t_rolesModel')
+const RolesCodes = require('../models/t_rolescodesModel')
 
 const login = async (req, res) => {
     const { username, password } = req.body
@@ -15,46 +18,51 @@ const login = async (req, res) => {
             'message': 'Password is required'
         })
     }
-    try {
-        const query = `SELECT * FROM tusers WHERE username_use = $1`; 
-        const result = await pool.query(query, [username])
-        if (result.rowCount === 0) {
-            return res.sendStatus(401)
-        }
-        const foundUser = result.rows[0]
-        // console.log(foundUser)
-        const match = await bcrypt.compare(password, foundUser.passwd_use)
-        if (match) {
-            const accessToken = jwt.sign(
-                { 
-                    "username": foundUser.username_use
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                { 
-                    expiresIn: '30s'
+    // query: 
+    // select t_users.username_use, t_rolescodes.name_rol from t_users 
+    // inner join t_roles on t_users.id_use = t_roles.fkusers_rol 
+    // inner join t_rolescodes on fkrolescodes_rol = t_rolescodes.id_rol 
+    // where username_use = 'test';
+    const foundUser = await Users.findOne({ 
+        where: { username_use: username },
+        include: [{
+            model: Roles,
+            as: 'roles',
+            include: [{
+                model: RolesCodes,
+                as: 'roleCode',
+                attributes: ['name_rol']
+            }]
+        }]
+    })
+    if (!foundUser) { 
+        return res.sendStatus(401)
+    }
+    const match = await bcrypt.compare(password, foundUser.passwd_use)
+    if (match) {
+        const roles = foundUser.roles.map((role) => role.roleCode.name_rol) 
+        const accessToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "username": foundUser.username_use,
+                    "roles": roles
                 }
-            )
-            const refreshToken = jwt.sign(
-                { 
-                    "username": foundUser.username_use
-                },
-                process.env.REFRESH_TOKEN_SECRET,
-                { 
-                    expiresIn: '1d'
-                }
-            )
-            // const otherUsers = 
-            res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-            res.json({
-                accessToken
-            })
-        } else {
-            res.sendStatus(401)
-        }
-    } catch (err) {
-        res.status(500).json({ 
-            'message': err.message 
-        })
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '30s' }
+        )
+        const refreshToken = jwt.sign(
+            { "username": foundUser.username_use },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '1d' }
+        )
+        foundUser.token_use = refreshToken
+        const result = await foundUser.save()
+        console.log(result)
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 1000 * 60 * 60 * 24 }) // secure: true
+        res.json({ accessToken })
+    } else {
+        res.sendStatus(401)
     }
 }
 

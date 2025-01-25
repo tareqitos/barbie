@@ -1,5 +1,5 @@
 const sequelize = require('./connection');
-const RolesCodes = require('../models/t_rolesCodesModel');
+const RolesCodes = require('../models/t_rolescodesModel');
 const Setups = require('../models/t_setupsModel');
 //const Pictures = require('../models/t_picturesModel');
 const Games = require('../models/t_gamesModel');
@@ -12,7 +12,6 @@ const ListSetups = require('../models/t_listSetupsModel');
 const ListComponents = require('../models/t_listComponentsModel');
 const GameLists = require('../models/t_gameListsModel');
 
-// Define associations
 Users.hasMany(Roles, { foreignKey: 'fkusers_rol' });
 Roles.belongsTo(Users, { foreignKey: 'fkusers_rol' });
 

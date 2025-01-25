@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../db/connection');
+const RolesCodes = require('./t_rolescodesModel');
 
 const Roles = sequelize.define('t_roles', {
   fkusers_rol: {
@@ -21,6 +22,15 @@ const Roles = sequelize.define('t_roles', {
 }, {
   tableName: 't_roles',
   timestamps: false
+});
+
+Roles.belongsTo(RolesCodes, {
+  foreignKey: 'fkrolescodes_rol',
+  as: 'roleCode',
+});
+RolesCodes.hasMany(Roles, {
+  foreignKey: 'fkrolescodes_rol',
+  as: 'roles',
 });
 
 module.exports = Roles;

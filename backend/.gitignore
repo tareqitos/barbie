@@ -3,5 +3,3 @@
 /logs/*
 
 .env
-
-/__tests__

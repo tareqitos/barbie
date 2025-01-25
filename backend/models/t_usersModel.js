@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../db/connection');
+const Roles = require('./t_rolesModel');
 
 const Users = sequelize.define('t_users', {
   id_use: {
@@ -23,20 +24,19 @@ const Users = sequelize.define('t_users', {
   },
   token_use: {
     type: DataTypes.STRING,
-    defaultValue: '0',
   },
-  // fkpictures_use: {
-  //   type: DataTypes.INTEGER,
-  //   allowNull: false,
-  //   defaultValue: 1,
-  //   references: {
-  //     model: 't_pictures',
-  //     key: 'id_pic',
-  //   }
-  // }
 }, {
   tableName: 't_users',
   timestamps: false
+});
+
+Users.hasMany(Roles, {
+  foreignKey: 'fkusers_rol',
+  as: 'roles',
+});
+Roles.belongsTo(Users, {
+  foreignKey: 'fkusers_rol',
+  as: 'user',
 });
 
 module.exports = Users;
