@@ -1,16 +1,21 @@
 const express = require('express')
 const router = express.Router()
-const usersController = require('../../controllers/usersController')
-//const ROLES_LIST = require('../../config/rolesList')
-//const verifyRoles = require('../../middleware/verifyRoles')
+const { 
+    getAllUsers,
+    createNewUser,
+    deleteUser,
+    updateUser,
+    getUser
+} = require('../../controllers/usersController')
+const verifyRoles = require('../../middleware/verifyRoles')
 
 router.route('/')
-    .get(usersController.getAllUsers)
-    .post(usersController.createNewUser)
-    .put(usersController.updateUser)
-    .delete(usersController.deleteUser)
+    .get(verifyRoles("admin"), getAllUsers)
+    .post(verifyRoles("admin"), createNewUser)
+    .put(verifyRoles("admin"), updateUser)
+    .delete(verifyRoles("admin"), deleteUser)
 
 router.route('/:id')
-    .get(usersController.getUser)
+    .get(verifyRoles("admin"), getUser)
 
 module.exports = router

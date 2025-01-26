@@ -50,7 +50,7 @@ app.use('/logout', require('./routes/logout'))
 app.use('/games', require('./routes/games'))
 
 // all the next routes will be access only with token
-// app.use(verifyJWT)
+app.use(verifyJWT)
 
 // api routes setup
 app.use('/api/users', require('./routes/api/usersRoutes'))

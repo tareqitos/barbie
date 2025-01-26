@@ -44,12 +44,13 @@ const login = async (req, res) => {
         const accessToken = jwt.sign(
             {
                 "UserInfo": {
+                    "id": foundUser.id_use,
                     "username": foundUser.username_use,
                     "roles": roles
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '30s' }
+            { expiresIn: '1d' }
         )
         const refreshToken = jwt.sign(
             { "username": foundUser.username_use },
@@ -57,8 +58,7 @@ const login = async (req, res) => {
             { expiresIn: '1d' }
         )
         foundUser.token_use = refreshToken
-        const result = await foundUser.save()
-        console.log(result)
+        await foundUser.save()
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 1000 * 60 * 60 * 24 }) // secure: true
         res.json({ accessToken })
     } else {

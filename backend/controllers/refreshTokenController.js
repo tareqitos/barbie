@@ -1,10 +1,7 @@
-const Sequelize = require('sequelize');
-const { Op } = Sequelize;
 const Users = require('../models/t_usersModel')
 const Roles = require('../models/t_rolesModel')
 const RolesCodes = require('../models/t_rolescodesModel')
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
 
 const refreshToken = async (req, res) => {
     const cookies = req.cookies
@@ -12,7 +9,6 @@ const refreshToken = async (req, res) => {
         return res.sendStatus(401)
     }
     const refreshToken = cookies.jwt
-    //console.log(cookies.jwt)
     const foundUser = await Users.findOne({
         where: { "token_use": refreshToken },
         include: [{
@@ -46,7 +42,7 @@ const refreshToken = async (req, res) => {
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '30s' }
             )
-            res.json({ accessToken })
+            res.status(200).json({ accessToken })
         }
     )
 }

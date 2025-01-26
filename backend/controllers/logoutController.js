@@ -7,7 +7,6 @@ const logout = async (req, res) => {
         return res.sendStatus(204)
     }
     const refreshToken = cookies.jwt
-
     try {
         const foundUser = await Users.findOne({
             where: { "token_use": refreshToken },
@@ -17,9 +16,7 @@ const logout = async (req, res) => {
         }
 
         foundUser.token_use = ''
-        const result = await foundUser.save()
-        console.log(result)
-
+        await foundUser.save()
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
         res.sendStatus(204)
     } catch (err) {
