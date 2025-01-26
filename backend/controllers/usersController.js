@@ -130,7 +130,7 @@ const getUser = async (req, res) => {
             id: user.id_use,
             email: user.email_use,
             username: user.username_use,
-            level: user.roles.map((role) => role.roleCode.name_rol).join(', '), 
+            level: user.roles.map((role) => role.roleCode.name_rol),
         };
         res.status(200).json(userData)
     } catch (err) {
