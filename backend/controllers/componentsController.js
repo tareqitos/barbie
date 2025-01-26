@@ -1,20 +1,13 @@
-const pool = require('../config/dbConnection'); 
+const Components = require('../models/t_componentsModel')
 
-const getAllComponents = (req, res) => {
-    pool.query(`
-        SELECT
-        tcomponents.id_comp, 
-        tcomponents.serial_comp, 
-        ttypes.name_typ
-        FROM tcomponents 
-        INNER JOIN ttypes ON tcomponents.fktypes_comp = ttypes.id_typ;`, (err, result) => {
-        if (err) {
-            console.log(err.message);
-            return res.status(500).json({ error: err.message }); 
-        }
-        res.json(result.rows); 
-        console.log("Ask COMPONENTS list from API request");
-    })
+const getAllComponents = async (req, res) => {
+    try {
+        const elem = await Components.findAll()
+        return res.status(200).json(elem)
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).json({ error: err.message }); 
+    }
 }
 
 module.exports = { getAllComponents }

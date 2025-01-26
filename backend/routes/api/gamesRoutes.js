@@ -3,6 +3,6 @@ const router = express.Router()
 const { getAllGames } = require('../../controllers/gamesController')
 const verifyRoles = require('../../middleware/verifyRoles')
 
-router.get('/', verifyRoles("user"), getAllGames)
+router.get('/', verifyRoles("admin"), getAllGames)
 
 module.exports = router
