@@ -21,7 +21,6 @@ const register = async (req, res) => {
             'message': 'Password is required'
         })
     }
-
     const duplicate = await Users.findOne({ 
         where: { 
             [Op.or]: [ 
@@ -31,7 +30,6 @@ const register = async (req, res) => {
         } 
     })
     if (duplicate) { 
-        console.log(duplicate.dataValues)
         return res.status(409).json({
             'message': 'Email or username already register'
         })
@@ -43,12 +41,10 @@ const register = async (req, res) => {
             "username_use": username,
             "passwd_use": hashedPassword
         })
-        console.log(newUser.dataValues)
-        const newRole = await Roles.create({
+        await Roles.create({
             "fkusers_rol": newUser.id_use,
             "fkrolescodes_rol": 2
         })
-        console.log(newRole.dataValues)
         res.status(201).json({
             'success': `New user created`
         })
