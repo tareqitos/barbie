@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt')
-const sequelize = require('../db/connection');
+const sequelize = require('../config/connection');
 const Users = require('../models/t_usersModel')
 const jwt = require('jsonwebtoken')
 const Roles = require('../models/t_rolesModel')
@@ -18,11 +18,6 @@ const login = async (req, res) => {
             'message': 'Password is required'
         })
     }
-    // query: 
-    // select t_users.username_use, t_rolescodes.name_rol from t_users 
-    // inner join t_roles on t_users.id_use = t_roles.fkusers_rol 
-    // inner join t_rolescodes on fkrolescodes_rol = t_rolescodes.id_rol 
-    // where username_use = 'test';
     const foundUser = await Users.findOne({ 
         where: { username_use: username },
         include: [{
@@ -50,7 +45,7 @@ const login = async (req, res) => {
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1d' }
+            { expiresIn: '300s' }
         )
         const refreshToken = jwt.sign(
             { "username": foundUser.username_use },

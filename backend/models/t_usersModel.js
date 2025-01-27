@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../db/connection');
+const sequelize = require('../config/connection');
 const Roles = require('./t_rolesModel');
 
 const Users = sequelize.define('t_users', {
@@ -24,10 +24,12 @@ const Users = sequelize.define('t_users', {
   },
   token_use: {
     type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: null
   },
 }, {
   tableName: 't_users',
-  timestamps: false
+  timestamps: false,
 });
 
 Users.hasMany(Roles, {

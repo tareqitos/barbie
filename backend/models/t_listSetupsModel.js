@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../db/connection');
+const sequelize = require('../config/connection');
 
 const ListSetups = sequelize.define('t_listsetups', {
   fkusers_listset: {

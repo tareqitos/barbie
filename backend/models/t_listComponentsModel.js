@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../db/connection');
+const sequelize = require('../config/connection');
 
 const ListComponents = sequelize.define('t_listcomponents', {
   fksetups_listcomp: {

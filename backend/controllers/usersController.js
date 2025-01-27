@@ -24,16 +24,13 @@ const getAllUsers = async (req, res) => {
           ],
           order: [['id_use', 'DESC']], 
         });
-    
         const userList = users.map((user) => ({
           id: user.id_use,
           email: user.email_use,
           username: user.username_use,
           level: user.roles.map((role) => role.roleCode.name_rol).join(', '), 
         }));
-    
-        console.log('Ask USER list from API request');
-        res.status(200).json(userList);
+            res.status(200).json(userList);
       } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: 'Failed to fetch users' });
@@ -94,8 +91,6 @@ const deleteUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
         await user.destroy();
-
-        console.log('User deleted successfully');
         res.sendStatus(200)
     } catch (err) {
         console.error(err.message);
