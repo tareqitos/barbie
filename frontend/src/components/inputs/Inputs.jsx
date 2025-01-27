@@ -70,11 +70,14 @@ export function Filters({date, setDate, fetchData, setGamesList}) {
                 <div className={`${styles['date-select']} ${styles['select-container']}`}>
                     <select onChange={handleDateFilter}  defaultValue="" className={styles.select}>
                         <option value="" disabled>Release date</option>
-                        <option ref={date_ref} value="2025">2025</option>
-                        <option ref={date_ref} value="2024">2024</option>
-                        <option ref={date_ref} value="2023">2023</option>
-                        <option ref={date_ref} value="2022">2022</option>
-                        <option ref={date_ref} value="2021">2021</option>
+                        {Array.from({ length: 16 }, (_, i) => {
+                            const year = 2025 - i;
+                            return (
+                                <option key={year} ref={date_ref} value={year}>
+                                    {year}
+                                </option>
+                            );
+                        })}
                     </select>
                 </div>
             </div>

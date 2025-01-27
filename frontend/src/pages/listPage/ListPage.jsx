@@ -9,7 +9,7 @@ function ListPage() {
   const [gamesList, setGamesList] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("2019-01-01,2025-01-01");
 
   const fetchData = async () => {
     setIsLoading(true)
