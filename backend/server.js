@@ -31,6 +31,7 @@ app.use('/', require('./routes/root'))
 app.use('/register', require('./routes/register'))
 app.use('/login', require('./routes/login'))
 app.use('/logout', require('./routes/logout'))
+app.use('/verify', require('./routes/verify'))
 
 // external api routes
 app.use('/games', require('./routes/games'))
