@@ -1,6 +1,8 @@
+import { useEffect, useRef } from 'react';
 import styles from './Inputs.module.scss'
 
 function Inputs() {
+
     return (
         <>
             <div className={styles["hardware-select-container"]}>
@@ -36,7 +38,22 @@ function Inputs() {
     )
 }
 
-export function Filters() {
+export function Filters({date, setDate, fetchData, setGamesList}) {
+    
+    let date_ref = useRef();
+
+    function handleDateFilter(event) {
+        setGamesList([]);
+        const filtered_date = `${event.target.value}-01-01,${event.target.value}-12-30`;
+        // console.log(filtered_date)
+        setDate(filtered_date)
+        console.log(date)
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [setDate])
+
     return (
         <>
             <div className={styles["filters-select-container"]}>
@@ -51,13 +68,13 @@ export function Filters() {
                     </select>
                 </div>
                 <div className={`${styles['date-select']} ${styles['select-container']}`}>
-                    <select defaultValue="" className={styles.select}>
+                    <select onChange={handleDateFilter}  defaultValue="" className={styles.select}>
                         <option value="" disabled>Release date</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
+                        <option ref={date_ref} value="2025">2025</option>
+                        <option ref={date_ref} value="2024">2024</option>
+                        <option ref={date_ref} value="2023">2023</option>
+                        <option ref={date_ref} value="2022">2022</option>
+                        <option ref={date_ref} value="2021">2021</option>
                     </select>
                 </div>
             </div>

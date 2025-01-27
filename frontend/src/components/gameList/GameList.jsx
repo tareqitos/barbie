@@ -3,45 +3,15 @@ import { Link } from 'react-router-dom';
 import styles from './GameList.module.scss'
 import CardSkeleton from '../cardSkeleton';
 
-function Games() {
-    const [gamesList, setGamesList] = useState([])
-    const [page, setPage] = useState(1)
-    const [isLoading, setIsLoading] = useState(true)
+function Games({ date, setDate, gamesList, isLoading, setPage }) {
     const bottom_ref = useRef(null);
-
-    useEffect(() => {
-        if (gamesList.length == 0) {
-            window.scrollTo(0, 0);
-        }
-
-        const fetchData = async () => {
-            setIsLoading(true)
-            try {
-                const response = await fetch(`http://localhost:3000/games?page=${page}`);
-                const result = await response.json()
-                setGamesList(prevGamesList => [...prevGamesList, ...result.results])
-
-                console.log(result)
-            } catch (error) {
-                console.error("Error fetching JSON:", error);
-            } finally {
-                setTimeout(() => {
-                    setIsLoading(false)
-                }, 500);
-            }
-        }
-        fetchData();
-
-        console.log(page)
-    }, [page]);
 
 
     useEffect(() => {
 
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !isLoading) {
-                setPage(previous => previous + 1)
-                    ;
+                setPage(previous => previous + 1);
             }
         }, {
             root: null,
@@ -80,6 +50,7 @@ function Games() {
                                         <p key={genre.id}>{genre.name}</p>
                                     ))}
                                 </div>
+                                <div>{game.released}</div>
                                 <div className={styles['game-requirements']}>
                                     <p>CPU</p>
                                     <hr />
