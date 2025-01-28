@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import ListPage from "./pages/listPage"
 import Member from "./components/login/Login"
 import Header from "./components/header"
 import GamePage from "./pages/gamePage"
+import HomePage from "./pages/homePage"
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
       <Header />
         <Routes>
-          <Route index element={<ListPage />} />
+          <Route index element={<HomePage />} />
           <Route path="/games/:slug" element={<GamePage />} />
           
           <Route path='/login' element={<Member />} />

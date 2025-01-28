@@ -1,11 +1,11 @@
-import styles from './ListPage.module.scss'
+import styles from './HomePage.module.scss'
 import Inputs from '../../components/inputs/Inputs'
 import { Filters } from '../../components/inputs/Inputs'
 import GameList from '../../components/gameList/GameList'
 import Footer from '../../components/footer/Footer'
 import { useEffect, useState } from 'react'
 
-function ListPage() {
+function HomePage() {
   const [gamesList, setGamesList] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
@@ -75,4 +75,4 @@ function ListPage() {
   )
 }
 
-export default ListPage
+export default HomePage
