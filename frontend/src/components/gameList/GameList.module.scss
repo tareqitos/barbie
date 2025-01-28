@@ -1,6 +1,21 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
 
+.no-game-found {
+    @include flex-column-center;
+    margin: 100px 0;
+    opacity: .5;
+
+    i {
+        font-size: 10em;
+    }
+
+    p {
+        @include font-properties('Syne', 1.5em, 500, normal, .5px);
+        margin-top: 20px;
+    }
+}
+
 .game-list {
     display: grid;
     gap: 20px;

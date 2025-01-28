@@ -9,12 +9,11 @@ const RAWG_API = process.env.RAWG_API;
 
 router.get("/", async (req, res) => {
   const page = req.query.page || 1;
-
   const date = req.query.date;
-
+  const genre = req.query.genre;
   try {
     const response = await fetch(
-      `https://api.rawg.io/api/games?key=${RAWG_API}&dates=${date}&platforms=4&page=${page}`
+      `https://api.rawg.io/api/games?key=${RAWG_API}&dates=${date}&platforms=4&page=${page}&genres=${genre}`
     );
     const result = await response.json();
     res.json(result);

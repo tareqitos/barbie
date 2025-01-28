@@ -9,13 +9,24 @@ function ListPage() {
   const [gamesList, setGamesList] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
   const [date, setDate] = useState("2019-01-01,2025-01-01");
+  const [genre, setGenre] = useState("action")
 
   const fetchData = async () => {
+    console.log('Fetching data...')
     setIsLoading(true)
+    setError(false);
     try {
-      const response = await fetch(`http://localhost:3000/games?page=${page}&date=${date}`);
+      
+      const response = await fetch(`http://localhost:3000/games?page=${page}&date=${date}&genre=${genre}`);
       const result = await response.json()
+
+      if (result.results == undefined) {
+        setError(true);
+        return console.warn('No game found')
+      }
+
       setGamesList(prevGamesList => [...prevGamesList, ...result.results])
 
       console.log(result)
@@ -32,11 +43,11 @@ function ListPage() {
     // if (gamesList.length == 0) {
     //     window.scrollTo(0, 0);
     // }
-
+    
     fetchData();
 
     console.log(page)
-  }, [page]);
+  }, [page, date, genre]);
 
   return (
     <>
@@ -46,14 +57,18 @@ function ListPage() {
       </div>
       <Inputs />
       <Filters 
-      setDate={setDate} 
-      fetchData={fetchData}
-      setGamesList={setGamesList} />
+      date={date}
+      setDate={setDate}
+      genre={genre}
+      setGenre={setGenre} 
+      setGamesList={setGamesList}
+      fetchData={fetchData} />
       <GameList
         date={date}
         setDate={setDate}
         setPage={setPage}
         gamesList={gamesList}
+        error={error}
         isLoading={isLoading} />
       <Footer />
     </>

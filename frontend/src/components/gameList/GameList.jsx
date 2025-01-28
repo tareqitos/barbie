@@ -3,37 +3,49 @@ import { Link } from 'react-router-dom';
 import styles from './GameList.module.scss'
 import CardSkeleton from '../cardSkeleton';
 
-function Games({ date, setDate, gamesList, isLoading, setPage }) {
+function Games({ date, setDate, gamesList, isLoading, setPage, error }) {
     const bottom_ref = useRef(null);
-
 
     useEffect(() => {
 
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !isLoading) {
-                setPage(previous => previous + 1);
-            }
-        }, {
-            root: null,
-            rootMargin: '0px',
-            threshold: 1.0
-        });
+        if (!error) {
 
-        if (bottom_ref.current) {
-            observer.observe(bottom_ref.current)
-        }
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !isLoading) {
+                    setPage(previous => previous + 1);
+                }
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 1.0
+            });
 
-        return () => {
             if (bottom_ref.current) {
-                observer.unobserve(bottom_ref.current);
+                observer.observe(bottom_ref.current)
             }
-        };
+
+            return () => {
+                if (bottom_ref.current) {
+                    observer.unobserve(bottom_ref.current);
+                }
+            };
+        }
 
     }, [isLoading])
 
+    if (error) {
+        return (
+            <div className={styles['no-game-found']}>
+                <i className="fa-solid fa-ghost"></i>
+                <p>No games found</p>
+            </div>
+        )
+    }
+
+
     return (
         <>
-            {isLoading ? <CardSkeleton cards={8} /> : ''}
+            {isLoading ? <CardSkeleton cards={12} /> : ''}
 
             <div className={styles['game-list']}>
                 {gamesList.map((game) => (
