@@ -3,35 +3,36 @@ import { Link } from 'react-router-dom';
 import styles from './GameList.module.scss'
 import CardSkeleton from '../cardSkeleton';
 
-function Games({ date, setDate, gamesList, isLoading, setPage, error }) {
+function Games({ date, setDate, gamesList, isLoading, setPage, hasMore, error }) {
     const bottom_ref = useRef(null);
 
     useEffect(() => {
 
-        if (!error) {
+        if (isLoading || !hasMore) return
 
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && !isLoading) {
-                    setPage(previous => previous + 1);
-                }
-            }, {
-                root: null,
-                rootMargin: '0px',
-                threshold: 1.0
-            });
 
-            if (bottom_ref.current) {
-                observer.observe(bottom_ref.current)
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !isLoading) {
+                setPage(previous => previous + 1);
             }
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0
+        });
 
-            return () => {
-                if (bottom_ref.current) {
-                    observer.unobserve(bottom_ref.current);
-                }
-            };
+        if (bottom_ref.current) {
+            observer.observe(bottom_ref.current)
         }
 
-    }, [isLoading])
+        return () => {
+            if (bottom_ref.current) {
+                observer.unobserve(bottom_ref.current);
+            }
+        };
+
+
+    }, [isLoading, hasMore])
 
     if (error) {
         return (
@@ -62,7 +63,7 @@ function Games({ date, setDate, gamesList, isLoading, setPage, error }) {
                                         <p key={genre.id}>{genre.name}</p>
                                     ))}
                                 </div>
-                                <div>{game.released}</div>
+                                <div>{new Date(game.released).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
                                 <div className={styles['game-requirements']}>
                                     <p>CPU</p>
                                     <hr />
@@ -77,6 +78,10 @@ function Games({ date, setDate, gamesList, isLoading, setPage, error }) {
             </div>
             {isLoading ? <div className={styles['loader-5']}></div> : ''}
             <div ref={bottom_ref}></div>
+            {!hasMore ? <div className={styles['no-game-found']}>
+                <i className="fa-solid fa-ghost"></i>
+                <p>No more games found</p>
+            </div> : ''}
         </>
     )
 }

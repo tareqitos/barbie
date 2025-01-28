@@ -75,7 +75,7 @@ function Game() {
                             <div className={styles["game-infos"]}>
                                 <div className={styles["info"]}>
                                     <p className={styles["info-title"]}>Release date</p>
-                                    <p>{game.released}</p>
+                                    <p>{new Date(game.released).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                                 </div>
                                 <div className={styles["info"]}>
                                     <p className={styles["info-title"]}>Developer</p>

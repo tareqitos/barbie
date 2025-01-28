@@ -36,10 +36,29 @@
     border-radius: $border-radius-05;
 }
 
+.filters {
+    @include flex-row;
+    gap: 10px;
+}
 .filters-select-container {
     @include flex-row;
     gap: 10px;
-    justify-content: end;
+    justify-content: space-between;
 
     margin-top: 20px;
+}
+
+form {
+    .input-search {
+        @include font-properties('Inter', .7em, 400, normal, normal);
+        @include search-input;
+        color: $text-primary-color-dark;
+        width: 20vw;
+        transition: width .25s;
+
+        &:focus {
+            width: 25vw;
+            outline: none;
+        }
+    }
 }

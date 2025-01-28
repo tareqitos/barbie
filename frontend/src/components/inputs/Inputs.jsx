@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import styles from './Inputs.module.scss'
+import Searchbar from '../searchbar/Searchbar';
 
 function Inputs() {
 
@@ -38,12 +39,12 @@ function Inputs() {
     )
 }
 
-export function Filters({date, setDate, genre, setGenre, setGamesList, fetchData}) {
-    
+export function Filters({ date, setDate, genre, setGenre, setGamesList, setQuery, fetchData }) {
+
     let date_ref = useRef();
 
     function handleDateFilter(event) {
-        
+
         setGamesList([]);
         const filtered_date = `${event.target.value}-01-01,${event.target.value}-12-30`;
         // console.log(filtered_date)
@@ -57,46 +58,57 @@ export function Filters({date, setDate, genre, setGenre, setGamesList, fetchData
         console.log('Genre: ' + genre)
     }
 
+    const input_ref = useRef();
 
+    function handleSearchbar(event) {
+        const input_value = event.target.value;
+        console.log(input_value)
+        setQuery(input_value);
+    }
 
     return (
         <>
             <div className={styles["filters-select-container"]}>
-                <div className={`${styles['category-select']} ${styles['select-container']}`}>
-                    <select onChange={handleCategoryFilter} defaultValue="action" className={styles.select}>
-                        <option value="action">Action</option>
-                        <option value="adventure">Adventure</option>
-                        <option value="arcade">Arcade</option>
-                        <option value="board-games">Board Games</option>
-                        <option value="card">Card</option>
-                        <option value="casual">Casual</option>
-                        <option value="educational">Educational</option>
-                        <option value="family">Family</option>
-                        <option value="fighting">Fighting</option>
-                        <option value="indie">Indie</option>
-                        <option value="massively-multiplayer">Massively Multiplayer</option>
-                        <option value="platformer">Platformer</option>
-                        <option value="puzzle">Puzzle</option>
-                        <option value="racing">Racing</option>
-                        <option value="role-playing-games-rpg">RPG</option>
-                        <option value="shooter">Shooter</option>
-                        <option value="simulation">Simulation</option>
-                        <option value="sports">Sports</option>
-                        <option value="strategy">Strategy</option>
-                    </select>
-                </div>
-                <div className={`${styles['date-select']} ${styles['select-container']}`}>
-                    <select onChange={handleDateFilter} defaultValue="" className={styles.select}>
-                        <option value="" disabled>Release date</option>
-                        {Array.from({ length: 16 }, (_, i) => {
-                            const year = 2025 - i;
-                            return (
-                                <option key={year} ref={date_ref} value={year}>
-                                    {year}
-                                </option>
-                            );
-                        })}
-                    </select>
+                <form autocomplete="off"> 
+                    <input onSubmit={handleSearchbar} className={styles['input-search']} type="text" name="search" placeholder='Search games...' required/>
+                </form>
+                <div className={styles["filters"]}>
+                    <div className={`${styles['category-select']} ${styles['select-container']}`}>
+                        <select onChange={handleCategoryFilter} defaultValue="action" className={styles.select}>
+                            <option value="action">Action</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="arcade">Arcade</option>
+                            <option value="board-games">Board Games</option>
+                            <option value="card">Card</option>
+                            <option value="casual">Casual</option>
+                            <option value="educational">Educational</option>
+                            <option value="family">Family</option>
+                            <option value="fighting">Fighting</option>
+                            <option value="indie">Indie</option>
+                            <option value="massively-multiplayer">Massively Multiplayer</option>
+                            <option value="platformer">Platformer</option>
+                            <option value="puzzle">Puzzle</option>
+                            <option value="racing">Racing</option>
+                            <option value="role-playing-games-rpg">RPG</option>
+                            <option value="shooter">Shooter</option>
+                            <option value="simulation">Simulation</option>
+                            <option value="sports">Sports</option>
+                            <option value="strategy">Strategy</option>
+                        </select>
+                    </div>
+                    <div className={`${styles['date-select']} ${styles['select-container']}`}>
+                        <select onChange={handleDateFilter} defaultValue="" className={styles.select}>
+                            <option value="" disabled>Release date</option>
+                            {Array.from({ length: 16 }, (_, i) => {
+                                const year = 2025 - i;
+                                return (
+                                    <option key={year} ref={date_ref} value={year}>
+                                        {year}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
                 </div>
             </div>
         </>
