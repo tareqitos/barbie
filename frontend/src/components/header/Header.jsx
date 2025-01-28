@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.scss'
 
 function Header() {
+    const handleLogoClick = () => {
+        window.location.reload();
+    };
+
     return (
         <>
             <header>
-                <div className={styles['logo-container']}>
+                <div onClick={handleLogoClick} className={styles['logo-container']}>
                     <img src="./src/assets/images/logo-01.png" alt="" className={styles['logo-img']} />
                     <Link to="/" className={styles['logo-title']} href="index.html">COMPUTATO</Link>
                 </div>

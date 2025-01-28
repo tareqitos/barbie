@@ -3,67 +3,49 @@ import { Link } from 'react-router-dom';
 import styles from './GameList.module.scss'
 import CardSkeleton from '../cardSkeleton';
 
-function Games() {
-    const [gamesList, setGamesList] = useState([])
-    const [page, setPage] = useState(1)
-    const [isLoading, setIsLoading] = useState(true)
+function Games({ date, setDate, gamesList, isLoading, setPage, error }) {
     const bottom_ref = useRef(null);
 
     useEffect(() => {
-        if (gamesList.length == 0) {
-            window.scrollTo(0, 0);
-        }
 
-        const fetchData = async () => {
-            setIsLoading(true)
-            try {
-                const response = await fetch(`http://localhost:3000/games?page=${page}`);
-                const result = await response.json()
-                setGamesList(prevGamesList => [...prevGamesList, ...result.results])
+        if (!error) {
 
-                console.log(result)
-            } catch (error) {
-                console.error("Error fetching JSON:", error);
-            } finally {
-                setTimeout(() => {
-                    setIsLoading(false)
-                }, 500);
-            }
-        }
-        fetchData();
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !isLoading) {
+                    setPage(previous => previous + 1);
+                }
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 1.0
+            });
 
-        console.log(page)
-    }, [page]);
-
-
-    useEffect(() => {
-
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !isLoading) {
-                setPage(previous => previous + 1)
-                    ;
-            }
-        }, {
-            root: null,
-            rootMargin: '0px',
-            threshold: 1.0
-        });
-
-        if (bottom_ref.current) {
-            observer.observe(bottom_ref.current)
-        }
-
-        return () => {
             if (bottom_ref.current) {
-                observer.unobserve(bottom_ref.current);
+                observer.observe(bottom_ref.current)
             }
-        };
+
+            return () => {
+                if (bottom_ref.current) {
+                    observer.unobserve(bottom_ref.current);
+                }
+            };
+        }
 
     }, [isLoading])
 
+    if (error) {
+        return (
+            <div className={styles['no-game-found']}>
+                <i className="fa-solid fa-ghost"></i>
+                <p>No games found</p>
+            </div>
+        )
+    }
+
+
     return (
         <>
-            {isLoading ? <CardSkeleton cards={8} /> : ''}
+            {isLoading ? <CardSkeleton cards={12} /> : ''}
 
             <div className={styles['game-list']}>
                 {gamesList.map((game) => (
@@ -80,6 +62,7 @@ function Games() {
                                         <p key={genre.id}>{genre.name}</p>
                                     ))}
                                 </div>
+                                <div>{game.released}</div>
                                 <div className={styles['game-requirements']}>
                                     <p>CPU</p>
                                     <hr />

@@ -1,6 +1,8 @@
+import { useEffect, useRef } from 'react';
 import styles from './Inputs.module.scss'
 
 function Inputs() {
+
     return (
         <>
             <div className={styles["hardware-select-container"]}>
@@ -36,28 +38,64 @@ function Inputs() {
     )
 }
 
-export function Filters() {
+export function Filters({date, setDate, genre, setGenre, setGamesList, fetchData}) {
+    
+    let date_ref = useRef();
+
+    function handleDateFilter(event) {
+        
+        setGamesList([]);
+        const filtered_date = `${event.target.value}-01-01,${event.target.value}-12-30`;
+        // console.log(filtered_date)
+        setDate(filtered_date)
+    }
+
+    function handleCategoryFilter(event) {
+        setGamesList([]);
+        const filtered_category = event.target.value;
+        setGenre(filtered_category);
+        console.log('Genre: ' + genre)
+    }
+
+
+
     return (
         <>
             <div className={styles["filters-select-container"]}>
                 <div className={`${styles['category-select']} ${styles['select-container']}`}>
-                    <select defaultValue="" className={styles.select}>
-                        <option value="" disabled>Category</option>
+                    <select onChange={handleCategoryFilter} defaultValue="action" className={styles.select}>
                         <option value="action">Action</option>
                         <option value="adventure">Adventure</option>
-                        <option value="rpg">RPG</option>
-                        <option value="strategy">Strategy</option>
+                        <option value="arcade">Arcade</option>
+                        <option value="board-games">Board Games</option>
+                        <option value="card">Card</option>
+                        <option value="casual">Casual</option>
+                        <option value="educational">Educational</option>
+                        <option value="family">Family</option>
+                        <option value="fighting">Fighting</option>
+                        <option value="indie">Indie</option>
+                        <option value="massively-multiplayer">Massively Multiplayer</option>
+                        <option value="platformer">Platformer</option>
+                        <option value="puzzle">Puzzle</option>
+                        <option value="racing">Racing</option>
+                        <option value="role-playing-games-rpg">RPG</option>
+                        <option value="shooter">Shooter</option>
                         <option value="simulation">Simulation</option>
+                        <option value="sports">Sports</option>
+                        <option value="strategy">Strategy</option>
                     </select>
                 </div>
                 <div className={`${styles['date-select']} ${styles['select-container']}`}>
-                    <select defaultValue="" className={styles.select}>
+                    <select onChange={handleDateFilter} defaultValue="" className={styles.select}>
                         <option value="" disabled>Release date</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
+                        {Array.from({ length: 16 }, (_, i) => {
+                            const year = 2025 - i;
+                            return (
+                                <option key={year} ref={date_ref} value={year}>
+                                    {year}
+                                </option>
+                            );
+                        })}
                     </select>
                 </div>
             </div>
