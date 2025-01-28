@@ -39,16 +39,18 @@ router.get("/:slug", async (req, res) => {
 });
 
 router.get("/search/:query", async (req, res) => {
+  const page = req.query.page || 1;
+  const date = req.query.date;
+  const genre = req.query.genre;
   const query = req.params.query;
-  console.log(query);
 
   try {
-    const response = await fetch(`https://api.rawg.io/api/games?key=${RAWG_API}&search=${query}`);
+    const response = await fetch(`https://api.rawg.io/api/games?key=${RAWG_API}&${query}&platforms=4`);
     const result = await response.json();
 
     res.json(result)
   } catch (err) {
-    console.error(error);
+    console.error(err);
     res.status(500).send("Internal Server Error, could not retrieve the game.");
   }
 })

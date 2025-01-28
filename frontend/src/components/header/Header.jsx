@@ -1,4 +1,3 @@
-import Searchbar from '../searchbar'
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss'
 
@@ -16,7 +15,6 @@ function Header() {
                 </div>
 
                 <div className={styles['form-login-container']}>
-                    <Searchbar />
                     <Link to="/login">
                         <button className={`${styles.btn} ${styles['btn-login']}`}>
                             Log In
