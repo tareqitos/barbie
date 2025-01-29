@@ -69,7 +69,7 @@ export function Filters({ date, setDate, genre, setGenre, setGamesList, setQuery
     return (
         <>
             <div className={styles["filters-select-container"]}>
-                <form autocomplete="off"> 
+                <form autoComplete="off"> 
                     <input onSubmit={handleSearchbar} className={styles['input-search']} type="text" name="search" placeholder='Search games...' required/>
                 </form>
                 <div className={styles["filters"]}>

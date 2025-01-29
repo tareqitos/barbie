@@ -5,7 +5,7 @@
     @include flex-row;
     overflow: hidden;
     gap: 100px;
-    margin: 70px 0;
+    margin: 20px 0 70px 0;
 
     @media screen and (max-width: 1200px) {
         gap: 50px;
@@ -39,7 +39,7 @@
 }
 
 .container-title {
-    @include font-properties('Syne', 3em, 600, normal, normal);
+    @include font-properties('Syne', 2em, 600, normal, normal);
     color: $primary-color;
     margin-bottom: 30px;
 
@@ -130,13 +130,18 @@
     position: relative;
 
     .game-description-text {
-        height: 200px;
+        height: 5em;
         overflow: hidden;
         transition: height .4s ease;
+
+        color: transparent;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        background-clip: text;
 
         &.visible {
             height: auto;
             overflow: visible;
+            color: $primary-color;
         }
     }
 
@@ -161,16 +166,27 @@
         height: 40px;
         opacity: .9;
     }
-
-    button {
-        position: relative;
-        margin-top: 10px;
-        @include button(fit-content, fit-content);
-        padding: 5px 10px;
-    }
 }
 
-// ============================= REQUIREMENTS =============================
+button {
+    position: relative;
+    margin-top: 10px;
+    @include button(fit-content, fit-content);
+    padding: 5px 10px;
+}
+
+.back-to-list-button {
+    margin-top: 70px;
+    padding: 10px 20px;
+    font-size: 1em;
+}
+
+
+// ============================= REQUIREMENTS ============================= //
+
+.game-requirements-container {
+    flex: 1;
+}
 
 .requirement-container {
 
@@ -187,6 +203,20 @@
     }
 
     .specs-container {
-        @include font-properties('Inter', 1em, 400, 1.5, normal);
+        @include font-properties('Inter', 1em, 400, normal, normal);
+        @include flex-column;
+
+        hr {
+            border: none;
+            border-top: 1px solid $text-color-opacity-05;
+            opacity: .5;
+            margin: 20px 0;
+        }
+    }
+
+    .req-container {
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        gap: 20px;
     }
 }

@@ -153,7 +153,6 @@
 
 // loader
 
-
 $lite: #FFF;
 $brand: $focus-color;
 $size: 56px;
@@ -161,7 +160,7 @@ $size: 56px;
 .loader-5 {
     width: $size;
     height: $size;
-    margin: 40px auto;
+    margin: 40px auto 100px auto;
     border: 3px solid $lite;
     border-radius: 50%;
     display: block;

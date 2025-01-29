@@ -1,19 +1,18 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './GameList.module.scss'
+import styles from './GameList.module.scss';
 import CardSkeleton from '../cardSkeleton';
 
-function Games({ date, setDate, gamesList, isLoading, setPage, hasMore, error }) {
-    const bottom_ref = useRef(null);
+const GameList = ({ gamesList, setPage, isLoading, error, hasMore }) => {
+    const bottomRef = useRef(null);
+    const [requirements, setRequirements] = useState({});
 
     useEffect(() => {
-
-        if (isLoading || !hasMore) return
-
+        if (isLoading || !hasMore) return;
 
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !isLoading) {
-                setPage(previous => previous + 1);
+            if (entries[0].isIntersecting) {
+                setPage(prevPage => prevPage + 1);
             }
         }, {
             root: null,
@@ -21,18 +20,37 @@ function Games({ date, setDate, gamesList, isLoading, setPage, hasMore, error })
             threshold: 1.0
         });
 
-        if (bottom_ref.current) {
-            observer.observe(bottom_ref.current)
+        if (bottomRef.current) {
+            observer.observe(bottomRef.current);
         }
 
         return () => {
-            if (bottom_ref.current) {
-                observer.unobserve(bottom_ref.current);
+            if (bottomRef.current) {
+                observer.unobserve(bottomRef.current);
+            }
+        };
+    }, [isLoading, hasMore]);
+
+    useEffect(() => {
+        const fetchRequirements = async (gameSlug) => {
+            try {
+                const response = await fetch(`http://localhost:3000/games/${gameSlug}`);
+                const result = await response.json();
+                setRequirements(prevReq => ({
+                    ...prevReq,
+                    [gameSlug]: result.requirements.min
+                }));
+            } catch (error) {
+                console.error("Error fetching JSON:", error);
             }
         };
 
-
-    }, [isLoading, hasMore])
+        gamesList.forEach(game => {
+            if (!requirements[game.slug]) {
+                fetchRequirements(game.slug);
+            }
+        });
+    }, [gamesList]);
 
     if (error) {
         return (
@@ -42,7 +60,6 @@ function Games({ date, setDate, gamesList, isLoading, setPage, hasMore, error })
             </div>
         )
     }
-
 
     return (
         <>
@@ -64,26 +81,31 @@ function Games({ date, setDate, gamesList, isLoading, setPage, hasMore, error })
                                     ))}
                                 </div>
                                 <div>{new Date(game.released).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
-                                <div className={styles['game-requirements']}>
-                                    <p>CPU</p>
-                                    <hr />
-                                    <p>GPU</p>
-                                    <hr />
-                                    <p>RAM</p>
-                                </div>
+                                {requirements[game.slug] &&
+                                    <div className={styles['game-requirements']}>
+                                        <p>CPU</p>
+                                        <p>{requirements[game.slug].cpu ? requirements[game.slug].cpu.replace('Memory', '').replace('RAM', '') : 'N/A'}</p>
+                                        <hr />
+                                        <p>GPU</p>
+                                        <p>{requirements[game.slug].gpu ? requirements[game.slug].gpu.replace('DirectX', '').replace('Storage', '') : 'N/A'}</p>
+                                        <hr />
+                                        <p>RAM</p>
+                                        <p>{requirements[game.slug].ram ? requirements[game.slug].ram : 'N/A'}</p>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
             {isLoading ? <div className={styles['loader-5']}></div> : ''}
-            <div ref={bottom_ref}></div>
+            <div ref={bottomRef}></div>
             {!hasMore ? <div className={styles['no-game-found']}>
                 <i className="fa-solid fa-ghost"></i>
                 <p>No more games found</p>
             </div> : ''}
         </>
-    )
-}
+    );
+};
 
-export default Games;
+export default GameList;

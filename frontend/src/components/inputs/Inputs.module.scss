@@ -48,6 +48,14 @@
     margin-top: 20px;
 }
 
+.category-select, .date-select {
+    .select {
+        border-radius: 50px;
+
+    }
+}
+
+
 form {
     .input-search {
         @include font-properties('Inter', .7em, 400, normal, normal);
