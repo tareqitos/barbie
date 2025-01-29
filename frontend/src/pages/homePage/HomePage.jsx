@@ -1,6 +1,5 @@
 import styles from './HomePage.module.scss'
 import Inputs from '../../components/inputs/Inputs'
-import Searchbar from '../../components/searchbar/Searchbar'
 import { Filters } from '../../components/inputs/Inputs'
 import GameList from '../../components/gameList/GameList'
 import Footer from '../../components/footer/Footer'
@@ -43,7 +42,7 @@ function HomePage() {
     } finally {
       setTimeout(() => {
         setIsLoading(false)
-      }, 500);
+      }, 1000);
     }
   }
 
@@ -77,7 +76,7 @@ function HomePage() {
     } finally {
       setTimeout(() => {
         setIsLoading(false)
-      }, 500);
+      }, 1000);
     }
   }
 
@@ -109,7 +108,6 @@ function HomePage() {
         error={error}
         isLoading={isLoading}
         hasMore={hasMore} />
-      <Footer />
     </>
   )
 }

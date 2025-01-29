@@ -7,7 +7,6 @@ function GamePage() {
   return (
     <>
       <Game />
-      <Footer />
     </>
   )
 }

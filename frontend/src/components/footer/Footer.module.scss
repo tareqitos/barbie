@@ -7,6 +7,13 @@ footer {
     justify-content: space-between;
     padding-top: 20px;
     font-size: .9em;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: $main-padding;
 }
 
 .footer-title {
