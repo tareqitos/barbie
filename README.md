@@ -66,12 +66,7 @@ Computato is a web application that allows users to check if their computer can 
     npm install
     ```
 
-3. Create a `.env` file in the `frontend` directory and add the following environment variables:
-    ```env
-    VITE_API_URL=http://localhost:3000
-    ```
-
-4. Start the frontend development server:
+3. Start the frontend development server:
     ```sh
     npm run dev
     ```
