@@ -5,20 +5,33 @@ const Users = require('../models/t_usersModel')
 const Roles = require('../models/t_rolesModel')
 
 const register = async (req, res) => {
-    const { email, username, password } = req.body
+    const { email, username, password, verifypassword } = req.body
     if (!email) {
         return res.status(400).json({
+            'status': '400',
             'message': 'Email is required'
         })
     }
     if (!username) {
         return res.status(400).json({
+            'status': '400',
             'message': 'Username is required'
         })
     }
     if (!password) {
         return res.status(400).json({
+            'status': '400',
             'message': 'Password is required'
+        })
+    } if (!verifypassword) {
+        return res.status(400).json({
+            'status': '400',
+            'message': 'Password needs verification'
+        })
+    } if (verifypassword != password){
+        return res.status(400).json({
+            'status' : '400',
+            'message' : "Passwords don't match"
         })
     }
     const duplicate = await Users.findOne({ 
@@ -31,7 +44,8 @@ const register = async (req, res) => {
     })
     if (duplicate) { 
         return res.status(409).json({
-            'message': 'Email or username already register'
+            'status': '409',
+            'message': 'Email or username already registered.'
         })
     }
     try {
@@ -46,10 +60,12 @@ const register = async (req, res) => {
             "fkrolescodes_rol": 2
         })
         res.status(201).json({
+            'status' : '201',
             'success': `New user created`
         })
     } catch (err) {
         res.status(500).json({ 
+            'status' : '500',
             'message': err.message 
         })
     }
